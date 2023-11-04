@@ -7,7 +7,13 @@ const reducer = (state, action) => {
     case "feature_selection_glass": {
       return {
         ...state,
-        glassSelection: action.detail.id,
+        glassFeatureSelection: action.detail.id,
+      };
+    }
+    case "feature_selection_stand": {
+      return {
+        ...state,
+        standFeatureSelection: action.detail.id,
       };
     }
     default: {
@@ -41,7 +47,7 @@ export function App() {
       type: "glass",
       title: "Standard glass",
       price: "From $1599",
-      monthlyPrice: "or $133.25/mo. for 12 mo.*",
+      monthlyPrice: "or $133.25/mo.per month for 12 mo.*",
     },
     {
       id: "glass_2",
@@ -51,10 +57,62 @@ export function App() {
       monthlyPrice: "or $158.25/mo. for 12 mo.*",
     },
   ];
+  const standCarousel = [
+    {
+      description: "Three versatile options to best suit your studio.",
+      imageAlt: "A front view of Studio Display with standard glass.",
+      imageSrc:
+        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/stand-mount-gallery-1-202203?wid=640&hei=528&fmt=p-jpg&qlt=95&.v=1645726292730",
+    },
+    {
+      description: "Tilt-adjustable stand offers 30 degrees of tilt.",
+      imageAlt: "A front view of Studio Display with nano-texture glass.",
+      imageSrc:
+        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/stand-mount-gallery-2-202203?wid=640&hei=528&fmt=p-jpg&qlt=95&.v=1645726292642",
+    },
+    {
+      description:
+        "Tilt- and height-adjustable stand option adds 105 mm of height adjustability.",
+      imageAlt: "A front view of Studio Display with nano-texture glass.",
+      imageSrc:
+        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/stand-mount-gallery-3-202203?wid=640&hei=528&fmt=p-jpg&qlt=95&.v=1645726292791",
+    },
+    {
+      description:
+        "VESA mount adapter option attaches to a wall or desk mount, stand, or articulating arm and supports landscape and portrait orientation.",
+      imageAlt: "A front view of Studio Display with nano-texture glass.",
+      imageSrc:
+        "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/stand-mount-gallery-4-202203?wid=640&hei=528&fmt=p-jpg&qlt=95&.v=1645726292947",
+    },
+  ];
+  const standFeatures = [
+    {
+      id: "stand_1",
+      type: "stand",
+      title: "Tilt-adjustable stand",
+      price: "$1,599.00",
+      monthlyPrice: "or $133.25/mo.per month for 12 mo.*",
+    },
+    {
+      id: "stand_2",
+      type: "stand",
+      title: "Tilt- and height-adjustable stand",
+      price: "$1,999.00",
+      monthlyPrice: "or $166.58/mo.per month for 12 mo.*",
+    },
+    {
+      id: "stand_3",
+      type: "stand",
+      title: "VESA mount adapter",
+      price: "$1,599.00",
+      monthlyPrice: "or $133.25/mo.per month for 12 mo.*",
+    },
+  ];
 
   const initialState = {
     glassSliderSelection: 0,
     glassFeatureSelection: glassFeatures[0].id,
+    standFeatureSelection: standFeatures[0].id,
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -64,6 +122,14 @@ export function App() {
       key={index}
       content={content}
       selectedId={state.glassFeatureSelection}
+      dispatch={dispatch}
+    />
+  ));
+  const standFeatureOptions = standFeatures.map((content, index) => (
+    <FeatureSelector
+      key={index}
+      content={content}
+      selectedId={state.standFeatureSelection}
       dispatch={dispatch}
     />
   ));
@@ -93,13 +159,13 @@ export function App() {
             Studio-quality mics. Six-speaker sound system with Spatial Audio.
           </div>
         </div>
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col md:flex-row pb-10">
           <div className="w-full md:w-5/12 ">
             <FeatureCarousel content={glassCarousel} />
           </div>
           <div className="w-full md:w-7/12 md:pl-12">
-            <h2 className="font-bold mb-4">Display</h2>
-            <div className="text-sm rounded-xl bg-slate-50 p-4 mb-4">
+            <h2 className="font-medium mb-4">Display</h2>
+            <div className="text-xs rounded-xl bg-slate-50 p-4 mb-4">
               <span className="font-bold">
                 Choose from two anti-reflective glass options.
               </span>{" "}
@@ -109,6 +175,38 @@ export function App() {
               light sources.
             </div>
             <div className="flex flex-col gap-4">{glassFeatureOptions}</div>
+          </div>
+        </div>
+        <hr className="pb-5"></hr>
+        <div className="flex flex-col md:flex-row">
+          <div className="w-full md:w-5/12 ">
+            <FeatureCarousel content={standCarousel} />
+          </div>
+          <div className="w-full md:w-7/12 md:pl-12">
+            <h2 className="font-medium mb-4">Stand</h2>
+            <div className="text-xs rounded-xl bg-slate-50 p-4 mb-4">
+              <span className="font-bold">
+                Pick the stand that’s right for you.
+              </span>{" "}
+              Studio Display comes with your choice of two stands or a mount
+              adapter to fit any setup.
+            </div>
+            <div className="flex flex-col gap-4">{standFeatureOptions}</div>
+          </div>
+        </div>
+        <div className="mt-32"></div>
+        <div className="flex flex-col md:flex-row">
+          <div className="w-full md:w-5/12 "></div>
+          <div className="w-full md:w-7/12 bg-slate-100 flex justify-center items-center">
+            <h2 className="font-medium mb-4">{standFeatures.price}</h2>
+            <div className="text-xs rounded-xl bg-slate-50 p-4 mb-4">
+              <span className="font-bold">
+                Pick the stand that’s right for you.
+              </span>{" "}
+              Studio Display comes with your choice of two stands or a
+              mountadapter to fit any setup.
+            </div>
+            <div className="flex flex-col gap-4"></div>
           </div>
         </div>
       </div>
